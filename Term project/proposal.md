@@ -11,6 +11,10 @@
 <h3>TODO</h3>
 
  1. 공원 데이터 받기
+ [공공데이터 포털/ '서울 공원' 키워드](https://www.data.go.kr/tcs/dss/selectDataSetList.do?dType=FILE&keyword=%EC%84%9C%EC%9A%B8+%EA%B3%B5%EC%9B%90&detailKeyword=&publicDataPk=&recmSe=N&detailText=&relatedKeyword=&commaNotInData=&commaAndData=&commaOrData=&must_not=&tabId=&dataSetCoreTf=&coreDataNm=&sort=_score&relRadio=&orgFullName=&orgFilter=&org=&orgSearch=&currentPage=1&perPage=10&brm=&instt=&svcType=&kwrdArray=&extsn=&coreDataNmArray=&pblonsipScopeCode=)<br>
+ [서울시 공원율 통계](https://data.seoul.go.kr/dataList/10817/S/2/datasetView.do)<br>
+ [서울시 공원 1인당 공원면적 통계](https://data.seoul.go.kr/dataList/360/S/2/datasetView.do)<br>
+ 주소지 별 공원 정보 : '서울의 공원'
  2. 수치 그래프로 그리기
- 3. 지역별 행복지수 추정 or 비교하기
- 
+ 3. 공원 이용 통계
+ 4. 공원 효율 도출?(강의 마저 듣고 정하기)
