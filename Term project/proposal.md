@@ -1,20 +1,25 @@
-<h1>������Ʈ ���ȼ�</h1>
+<h1>프로젝트 제안서</h1>
 
-��ǻ�Ͱ��а� 20101308 ������
+컴퓨터공학과 20101308 한윤재
 
-<h2>���� ���� ����</h2>
+<h2>미니게임</h2>
 <ul>
-    <li> Ư�� ���� ������ ������ ��ġ�� �˰� ������ ������ ã�´�.
-    <li> ������� �޽��� ���� �� �ִ� ��Ҹ� ã�� �ູ������ �����Ѵ�.
+    <li> 레시피 별로 재료를 조합하는 순서가 정해져 있다.
+    <li> 레시피는 (W, A, S, D)로 입력하는데, 제품을 만들 때마다 재료의 위치가 바뀐다.
+    <li> 제품 순서가 틀리면, 처음부터 만든다.
+    <li> 레시피 순서대로 입력하면, 마무리 단계에서 연타한다.
+    <li> 고객이 기다리는 시간 내에 주문받은 상품을 만들어 납품한다.
+    <li> 고객은 랜덤 개수를 요구하고, 그에 맞는 시간 동안 기다려준다.
+    <li> 고객 3명이 다녀가면, 하루가 끝난다.
+    <li> 고객이 기다린 시간의 단계별로 돈을 나누어 준다.
 </ul>
 
-<h3>TODO</h3>
 
- 1. ���� ������ �ޱ�
- [���������� ����/ '���� ����' Ű����](https://www.data.go.kr/tcs/dss/selectDataSetList.do?dType=FILE&keyword=%EC%84%9C%EC%9A%B8+%EA%B3%B5%EC%9B%90&detailKeyword=&publicDataPk=&recmSe=N&detailText=&relatedKeyword=&commaNotInData=&commaAndData=&commaOrData=&must_not=&tabId=&dataSetCoreTf=&coreDataNm=&sort=_score&relRadio=&orgFullName=&orgFilter=&org=&orgSearch=&currentPage=1&perPage=10&brm=&instt=&svcType=&kwrdArray=&extsn=&coreDataNmArray=&pblonsipScopeCode=)<br>
- [����� ������ ���](https://data.seoul.go.kr/dataList/10817/S/2/datasetView.do)<br>
- [����� ���� 1�δ� �������� ���](https://data.seoul.go.kr/dataList/360/S/2/datasetView.do)<br>
- �ּ��� �� ���� ���� : '������ ����'
- 2. ��ġ �׷����� �׸���
- 3. ���� �̿� ���
- 4. ���� ȿ�� ����?//(���� ���� ��� ���ϱ�)
+<h3>TODO</h3>
+ 1. 제작화면, 마무리 화면을 만든다.
+ 2. 레시피 목록을 만든다.
+ 3. 제작화면을 만든다.
+ 4. 만든 제품 목록을 만든다.
+ 5. 고객 주문 알고리즘을 만든다.
+ 6. 다녀간 고객수를 세어 하루를 끝낸다.
+ 
