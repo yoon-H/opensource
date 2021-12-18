@@ -23,3 +23,4 @@
  5. 고객 주문 알고리즘을 만든다.
  6. 다녀간 고객수를 세어 하루를 끝낸다.
  
+ 참고 : [나도코딩 pygame](https://www.youtube.com/watch?v=Dkx8Pl6QKW0)
