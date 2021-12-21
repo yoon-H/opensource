@@ -1,11 +1,12 @@
 import os
 from typing import Sized
 import pygame
+import random
 
 #######TODO##########
 # o 1. 레시피 북 띄우기 
-# x 2. 주문 띄우기
-# x 3. 납품하기
+# x 2. 주문 띄우기 
+# x 3. 납품하기   - start ticks 위에 넣고 시간별로 빼는 값 다르게 하기
 # o 4. 만든 제품 수 띄우기
 # o 5. 제작화면 띄우기
 # o 6. 제작화면 - 입력한 스택 보이기
@@ -55,16 +56,6 @@ to_y = 0
 # 이동 속도
 charcter_speed = 0.6
 
-# 상단 주문 바 만들기
-orderbar = pygame.image.load(os.path.join(image_path, "orderbar.png"))
-orderbar_size = orderbar.get_rect().size
-orderbar_height = orderbar_size[1]
-orderbar_y_pos = 0
-
-# 주문 처리하기
-
-
-
 # 레시피 만들기
 
 apple_juice = ['apple', 'ice', 'sugar' , 'water'] # 사과 주스
@@ -73,6 +64,12 @@ mango_juice = ['mango', 'ice', 'sugar' , 'water'] # 망고 주스
 materials = ['apple', 'mango' , 'sugar' , 'ice' ,'water']
 recipes = [apple_juice, mango_juice]
 
+recipes_order = ['apple juice', 'mango juice'] # 주문용 레시피 모음
+
+# 주문 처리하기
+num_client = 0
+
+order = random.choice(recipes_order)
 
 # 제작 스택
 buffer = [] 
@@ -101,6 +98,12 @@ recipescreen_width = recipescreen_size[0]
 recipescreen_height = recipescreen_size[1]
 recipescreen_x_pos = (screen_width / 2) - (recipescreen_width / 2)
 recipescreen_y_pos = (screen_height / 2) - (recipescreen_height / 2)
+
+# 상단 주문 바 만들기
+orderbar = pygame.image.load(os.path.join(image_path, "orderbar.png"))
+orderbar_size = orderbar.get_rect().size
+orderbar_height = orderbar_size[1]
+orderbar_y_pos = 0
 
 
 # 제작 스크린 만들기
@@ -134,6 +137,8 @@ game_font = pygame.font.Font(None, 30) # 폰트 객체 생성 (폰트, 크기)
 # 총 시간
 total_time = 15
 
+# 시작 시간
+start_ticks = pygame.time.get_ticks() # 현재 tick을 받아옴
 
 # 게임 루프
 running = True 
@@ -144,7 +149,10 @@ making = False
 making_menu = False # 만들 레시피 고르기
 making_apple = False # 사과 주스 만들기
 making_mango = False # 망고 주스 만들기
-delivering = False # 납품하기
+
+# 주문과 납품
+delivering = True # 주문 받기
+selling = False # 납품하기
 
 while running:
     dt = clock.tick(30)
@@ -194,7 +202,7 @@ while running:
             # 망고주스 만들기 키보드 이벤트
             elif making_mango :
                 if event.key == pygame.K_w:
-                    buffer.append('apple') # 망고
+                    buffer.append('mango') # 망고
                 elif event.key == pygame.K_a: # 물
                     buffer.append('water')
                 elif event.key == pygame.K_s: # 얼음
@@ -249,10 +257,9 @@ while running:
 
     # 충돌 체크
     if character_rect.colliderect(orderbar_rect):
-        print("납품합니다.")
         character_x_pos = (screen_width / 2) - (character_width / 2)
         character_y_pos = (screen_height / 2) - (character_height / 2)
-        delivering = True
+        selling = True
     
     elif character_rect.colliderect(recipebook_rect):
         print("레시피를 확인합니다.")
@@ -270,11 +277,11 @@ while running:
     
 
     # 5. 화면에 그리기
-    screen.blit(background, (0,0))
-    screen.blit(worktable, (0, screen_height - worktable_height))
-    screen.blit(orderbar, (0, 0))
-    screen.blit(recipebook, (0, recipebook_y_pos))
-    screen.blit(character,(character_x_pos, character_y_pos))
+    screen.blit(background, (0,0)) # 배경
+    screen.blit(worktable, (0, screen_height - worktable_height)) # 작업대
+    screen.blit(orderbar, (0, 0)) # 상단 주문 바
+    screen.blit(recipebook, (0, recipebook_y_pos)) # 레시피 북
+    screen.blit(character,(character_x_pos, character_y_pos)) # 캐릭터
 
     # 만든 제품 개수 표시
     # 사과 주스
@@ -284,6 +291,10 @@ while running:
     # 망고 주스
     text_mangojuice = game_font.render("mango juice : " + str(num_mango), True, (0,0,0))
     screen.blit(text_mangojuice , (0, 80))
+
+    # 만족 고객 수 표시
+    text_client = game_font.render("client : " + str(num_client), True, (0,0,0))
+    screen.blit(text_client, (390, 60))
 
     # 레시피 북 열기
     if reading :
@@ -318,17 +329,6 @@ while running:
         elif making_mango :
             screen.blit(making_mango_screen, (making_mango_screen_x_pos, making_mango_screen_y_pos))
 
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN: # 키가 눌러졌는지 확인
-                    if event.key == pygame.K_w: # 망고
-                        buffer.append('mango')
-                    elif event.key == pygame.K_a: # 물
-                        buffer.append('water')
-                    elif event.key == pygame.K_s: # 얼음
-                        buffer.append('ice')
-                    elif event.key == pygame.K_d: # 설탕
-                        buffer.append('sugar')
-
             # 레시피 스택 표시
             text_buffer = game_font.render(str(buffer), True,(0,0,0))
             screen.blit(text_buffer, (80 , 300))
@@ -345,24 +345,82 @@ while running:
                     screen.blit(text_wrong, (200, 400))     
 
 
-    # 납품하기
+    # 손님 주문 후 납품
     if delivering :
         # 타이머 집어넣기
-        # 시작 시간
-        start_ticks = pygame.time.get_ticks() # 현재 tick을 받아옴
+        
         # 경과 시간 계산
         elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 
         # 경과 시간(ms)을 1000으로 나누어서 초(s) 단위로 표시
 
         timer = game_font.render(str(int(total_time - elapsed_time)), True,(0,0,0))
         # 출력할 글자, True, 글자 색상
-        screen.blit(timer,(10,10))
+        screen.blit(timer,(0,30))
 
-        # 만약 시간이 0 이하이면 게임 종료
+        text_order = game_font.render(order + " please.", True, (0, 0, 0))
+        screen.blit(text_order, (0,5))
+
+        # 시간 초과하면 실패
         if total_time - elapsed_time <=0:
-            print("고객이 화를 내며 떠났습니다.")
+            text_timeout = game_font.render("Time over!", True,(255,0,0))
+            text_timeout_rect = text_timeout.get_rect(center= (int(screen_width/2), int (screen_height /2)))
+            screen.blit(text_timeout, text_timeout_rect)
+            pygame.display.update()
+            delivering
+            running = False
+
+        else :
+            if selling :
+                if order == 'apple juice':
+                    if num_apple >= 1:
+                        num_apple -= 1
+                        # 성공 고객 수 증가
+                        num_client += 1 
+                        delivering = False
+                        order = random.choice(recipes_order)
+                        start_ticks = pygame.time.get_ticks() # 현재 tick을 받아옴
+                        print("납품합니다.")
+                        selling = False
+                        
+                    
+                elif order == 'mango juice' :
+                    if num_mango >=1:
+                        num_mango -= 1
+                        # 성공 고객 수 증가
+                        num_client += 1 
+                        delivering = False
+                        order = random.choice(recipes_order)
+                        start_ticks = pygame.time.get_ticks() # 현재 tick을 받아옴
+                        selling = False
+                        print("납품합니다.")
+    else :
+        # 타이머 집어넣기
+
+        elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 
+        # 경과 시간(ms)을 1000으로 나누어서 초(s) 단위로 표시
+
+        timer = game_font.render(str(int(3 - elapsed_time)), True,(255,0,0))
+        # 출력할 글자, True, 글자 색상
+        screen.blit(timer,(0,30))
+
+        if 3 - elapsed_time <=0:
+            delivering = True
+            start_ticks = pygame.time.get_ticks() # 현재 tick을 받아옴
+
+
+    if num_client >= 3  :
+            text_done = game_font.render("Well done!", True,(0,255,0))
+            text_done_rect = text_done.get_rect(center= (int(screen_width/2), int (screen_height /2)))
+            screen.blit(text_done, text_done_rect)
+            pygame.display.update()
             delivering = False
+            running = False
+
+    
+    
 
     pygame.display.update()
+
+pygame.time.delay(2000) # 2초 정지 후 종료
 
 pygame.quit()
